@@ -12,8 +12,9 @@ int main(int argc, const char * argv[]) {
     int option{};
     char quit = ' ';
     std::cout << "WELCOME TO THE CONSOLE TODO-LIST.\n";
+
     
-    while (option != 5) {
+    do {
         
         std::cout << "Choose your option:\n\t1. Add task.\n\t2. Show all tasks.\n\t3. Finish task.\n\t4. Delete task.\n\t5. Save&Quit.\n\t- Your choice: ";
         std::cin >> option;
@@ -29,12 +30,16 @@ int main(int argc, const char * argv[]) {
                 break;
         }
         
+        if (option == 5){
+            break;
+        }
+        
         std::cout << "Do you want to continue? (y/n)\n\t- Your choice: ";
         std::cin >> quit;
         
         if (quit == 'n' || quit == 'N'){
             break;
         }
-    }
+    } while (option != 5);
     return 0;
 }
