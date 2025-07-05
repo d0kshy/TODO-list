@@ -13,33 +13,35 @@ int main(int argc, const char * argv[]) {
     char quit = ' ';
     std::cout << "WELCOME TO THE CONSOLE TODO-LIST.\n";
 
-    
-    do {
-        
-        std::cout << "Choose your option:\n\t1. Add task.\n\t2. Show all tasks.\n\t3. Finish task.\n\t4. Delete task.\n\t5. Save&Quit.\n\t- Your choice: ";
+    while (true) {
+        std::cout << "\nChoose your option:\n"
+                  << "\t1. Add task.\n"
+                  << "\t2. Show all tasks.\n"
+                  << "\t3. Finish task.\n"
+                  << "\t4. Delete task.\n"
+                  << "\t5. Save & Quit.\n"
+                  << "\t- Your choice: ";
         std::cin >> option;
-        
+
         switch (option) {
-            case 1: addTaskFunc();
-                break;
-            case 2: showTasksFunc();
-                break;
-            case 3: finishTaskFunc();
-                break;
-            case 4: deleteTaskFunc();
-                break;
+            case 1: addTaskFunc(); break;
+            case 2: showTasksFunc(); break;
+            case 3: finishTaskFunc(); break;
+            case 4: deleteTaskFunc(); break;
+            case 5:
+                std::cout << "\n\t - - - Saving and quitting...\n";
+                return 0;
+            default:
+                std::cout << "\nInvalid option.\n";
         }
-        
-        if (option == 5){
-            break;
-        }
-        
+
         std::cout << "Do you want to continue? (y/n)\n\t- Your choice: ";
         std::cin >> quit;
-        
-        if (quit == 'n' || quit == 'N'){
+
+        if (quit == 'n' || quit == 'N') {
             break;
         }
-    } while (option != 5);
+    }
+
     return 0;
 }
