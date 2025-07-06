@@ -40,13 +40,13 @@ void addTaskFunc(){
     
     // Function is creating a .txt file.
     std::ofstream outf("TODO-list.txt", std::ios::app);
-    outf << "   TODO-list:\n";
+    outf << "------------------------------\n   TODO-list:\n";
     
     // Writes users input to the file.
     for (const auto& task : list) {
         outf << "[ ] " << task.description << '\n';
     }
-    
+    outf << "------------------------------\n";
     list.clear();
 }
 
@@ -55,24 +55,16 @@ void addTaskFunc(){
 void showTasksFunc(){
     char option = 'y';
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    
-    while (option == 'y' || option == 'Y') {
+       
+    // ifstream for reading the .txt file
+    std::ifstream inf("TODO-list.txt");
         
-        // ifstream for reading the .txt file
-        std::ifstream inf("TODO-list.txt");
-        
-        while (inf)
-            {
-                std::string strInput;
-                getline(inf, strInput);
-                std::cout << strInput << std::endl;
-            }
-        
-        std::cout << "Go back to the menu? (y/n)\n\t- Your choice: ";
-        std::cin >> option;
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    while (inf) {
+        std::string strInput;
+        getline(inf, strInput);
+        std::cout << strInput << std::endl;
     }
-    
+
 }
 
 //
