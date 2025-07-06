@@ -11,8 +11,7 @@
 #include <string>
 #include <vector>
 
-// Function is creating a .txt file.
-std::ofstream outf("TODO-list.txt");
+
 
 // A vector saving all tasks through structure.
 std::vector<Task> list;
@@ -21,6 +20,7 @@ std::vector<Task> list;
 // Function adds new tasks to created earlier .txt file.
 void addTaskFunc(){
     char option = 'y';
+    
     // Ignoring '\n' symbol for proper code functionality.
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
@@ -28,10 +28,7 @@ void addTaskFunc(){
         std::cout << "\n\tNew task: ";
         std::string task;
         std::getline(std::cin, task);
-        
-        // Write users input to the file.
-        outf << "[ ] " << task << '\n';
-        
+                
         // Creating new object using structure.
         Task newTask = {task};
         list.push_back(newTask);
@@ -40,6 +37,16 @@ void addTaskFunc(){
         std::cin >> option;
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
+    
+    // Function is creating a .txt file.
+    std::ofstream outf("TODO-list.txt", std::ios::app);
+    
+    // Writes users input to the file.
+    for (const auto& task : list) {
+        outf << "[ ] " << task.description << '\n';
+    }
+    
+    list.clear();
 }
 
 //
@@ -49,9 +56,19 @@ void showTasksFunc(){
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     
     std::cout << "*Show the list of tasks*\n";
-    while (option == 'y' || option == 'Y') {
+    while (option == 'n' || option == 'N') {
+        
         // ifstream for reading the .txt file
-        std::cout << "\nQuit to the menu? (y/n)\n\t- Your choice: ";
+        std::ifstream inf("TODO-list.txt");
+        
+        while (inf)
+            {
+                std::string strInput;
+                inf >> strInput;
+                std::cout << strInput << std::endl;
+            }
+        
+        std::cout << "\nGo back to the menu? (y/n)\n\t- Your choice: ";
         std::cin >> option;
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
