@@ -23,30 +23,34 @@ void addTaskFunc(){
     
     // Ignoring '\n' symbol for proper code functionality.
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-
+    int i = 1;
     while (option == 'y' || option == 'Y') {
+
         std::cout << "\n\tNew task: ";
         std::string task;
         std::getline(std::cin, task);
                 
         // Creating new object using structure.
-        Task newTask = {task};
+        Task newTask = {i, task};
         list.push_back(newTask);
-
+        
+        i+=1;
+        
         std::cout << "\nAdd another one? (y/n)\n\t- Your choice: ";
         std::cin >> option;
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        
+ 
     }
     
     // Function is creating a .txt file.
     std::ofstream outf("TODO-list.txt", std::ios::app);
-    outf << "------------------------------\n   TODO-list:\n";
+    outf << "   TODO-list:\n";
     
     // Writes users input to the file.
     for (const auto& task : list) {
-        outf << "[ ] " << task.description << '\n';
+        outf << task.n << "[ ] " << task.description << '\n';
     }
-    outf << "------------------------------\n";
     list.clear();
 }
 
@@ -71,6 +75,7 @@ void showTasksFunc(){
 // Function finishes tasks that were added earlier to the .txt file.
 void finishTaskFunc(){
     char option = 'y';
+    std::cout << "Choose the task: ";
     std::cout << "*Finish the task*\n";
 }
 

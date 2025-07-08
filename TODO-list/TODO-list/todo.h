@@ -12,6 +12,7 @@
 #include <vector>
 
 struct Task{
+    int n = 0;
     std::string description;
     bool complete = false;
 };
