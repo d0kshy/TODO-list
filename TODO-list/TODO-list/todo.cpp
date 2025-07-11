@@ -10,6 +10,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 
 
@@ -23,7 +24,18 @@ void addTaskFunc(){
     
     // Ignoring '\n' symbol for proper code functionality.
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    
     int i = 1;
+    std::ifstream inFile("TODO-list.txt");
+    
+    std::string line;
+    while (std::getline(inFile, line)) {
+        if (line.find(". [") != std::string::npos) {
+            i++;
+        }
+    }
+    inFile.close();
+    
     while (option == 'y' || option == 'Y') {
 
         std::cout << "\n\tNew task: ";
@@ -34,7 +46,7 @@ void addTaskFunc(){
         Task newTask = {i, task};
         list.push_back(newTask);
         
-        i+=1;
+        i++;
         
         std::cout << "\nAdd another one? (y/n)\n\t- Your choice: ";
         std::cin >> option;
@@ -45,11 +57,11 @@ void addTaskFunc(){
     
     // Function is creating a .txt file.
     std::ofstream outf("TODO-list.txt", std::ios::app);
-    outf << "   TODO-list:\n";
+    // outf << "   TODO-list:\n";
     
     // Writes users input to the file.
     for (const auto& task : list) {
-        outf << task.n << "[ ] " << task.description << '\n';
+        outf << task.n << ". [ ] " << task.description << '\n';
     }
     list.clear();
 }
@@ -75,8 +87,46 @@ void showTasksFunc(){
 // Function finishes tasks that were added earlier to the .txt file.
 void finishTaskFunc(){
     char option = 'y';
-    std::cout << "Choose the task: ";
-    std::cout << "*Finish the task*\n";
+    
+    while (option == 'y' || option == 'Y') {
+        
+            int taskNumber;
+            std::cout << "\nEnter the task number to mark as finished: ";
+            std::cin >> taskNumber;
+
+            std::ifstream inf("TODO-list.txt");
+
+
+            std::vector<std::string> lines;
+            std::string line;
+
+            while (getline(inf, line)) {
+                lines.push_back(line);
+            }
+            inf.close();
+
+            // Modify the correct task line
+            for (auto& l : lines) {
+                if (l.find(std::to_string(taskNumber) + ". [ ]") != std::string::npos) {
+                    size_t pos = l.find("[ ]");
+                    if (pos != std::string::npos)
+                        l.replace(pos, 3, "[x]");
+                    break;
+                }
+            }
+
+            // Rewrite file
+            std::ofstream outf("TODO-list.txt");
+            for (const auto& l : lines)
+                outf << l << '\n';
+
+            std::cout << "\tTask " << taskNumber << " marked as complete in file.\n";
+        
+
+        std::cout << "\nContinue? (y/n)\n\t- Your choice: ";
+        std::cin >> option;
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
 }
 
 //
@@ -85,4 +135,3 @@ void deleteTaskFunc() {
     char option = 'y';
     std::cout << "*Select a task*\n";
 }
-
